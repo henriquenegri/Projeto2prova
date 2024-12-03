@@ -1,0 +1,116 @@
+﻿@model IEnumerable<Projeto2prova.Models.Cad_Clientes>
+
+@{
+    ViewData["Title"] = "Dashboard de Clientes";
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Ajuste o layout conforme necessário
+}
+
+<style>
+    /* Animação do gradiente de fundo */
+    @@keyframes gradientBG {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        50% {
+            background-position: 100% 50%;
+        }
+
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+
+    body {
+        background: linear-gradient(-45deg, #1b1b2f, #162447, #1f4068, #1b1b2f);
+        background-size: 400% 400%;
+        animation: gradientBG 12s ease infinite;
+        color: #e0e0e0; /* Texto claro para contraste */
+        font-family: 'Roboto', sans-serif;
+    }
+
+    h1, h2 {
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+        color: #ffffff;
+    }
+
+    .card {
+        border: none;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        color: white;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.5);
+        }
+
+    .table {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(5px);
+        border-radius: 10px;
+    }
+
+    .btn {
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+        .btn:hover {
+            transform: translateY(-3px);
+        }
+</style>
+
+
+<div class="container mt-5">
+    <h1 class="text-center fw-bold mb-5">Clientes</h1>
+
+    <!-- Tabela de Clientes -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold">Lista de Clientes</h2>
+        <a asp-action="Create" class="btn btn-light btn-lg shadow-sm">
+            <i class="bi bi-plus-circle"></i> Adicionar Cliente
+        </a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover align-middle text-white">
+            <thead class="table-light text-dark">
+                <tr>
+                    <th>Foto</th>
+                    <th>Nome</th>
+                    <th>E-mail</th>
+                    <th>Data de Nascimento</th>
+                    <th>Sexo</th>
+                    <th class="text-center">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var cliente in Model)
+                {
+                    <tr>
+                        <td>
+                            <img src="@cliente.FotoCliente" alt="@cliente.Nome" class="foto-cliente" />
+                        </td>
+                        <td>@cliente.Nome</td>
+                        <td>@cliente.Email</td>
+                        <td>@cliente.DataNascimento?.ToString("dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture)</td>
+                        <td>@cliente.Sexo</td>
+                        <td class="text-center">
+                            <a asp-action="Details" asp-route-id="@cliente.Id" class="btn btn-info btn-sm mx-1">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                            <a asp-action="Edit" asp-route-id="@cliente.Id" class="btn btn-warning btn-sm mx-1">
+                                <i class="bi bi-pencil-square"></i>
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@cliente.Id" class="btn btn-danger btn-sm mx-1">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
